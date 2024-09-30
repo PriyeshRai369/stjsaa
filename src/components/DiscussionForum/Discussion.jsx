@@ -1,9 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import PostBox from "../PostBox/PostBox";
 
 export default function Discussion() {
-  // Sample post data
+
+  const [startPost, setStartPost] = useState(false);
+
+  function handleClick() {
+    setStartPost(true); 
+  }
+
+  useEffect(() => {
+    if (startPost) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [startPost]);
+
   const postData = {
-    text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus ipsum non soluta vero odit recusandae provident, odio dolorum eveniet aliquam, repellendus ab natus deserunt ad nemo accusantium aperiam perferendis quam Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis voluptas sint eius id hic animi, quas mollitia, dolore consequuntur numquam voluptatibus laudantium at culpa esse ullam exercitationem incidunt deserunt. Tenetur corrupti recusandae ad, ex veniam delectus ratione excepturi qui dicta voluptatum adipisci, eum id officia. Veniam, vero voluptate! Iste, atque.",
+    text: "Lorem ipsum dolor sit amet consectetur adipisicing elit...",
     imageUrl: "/images/banner/banner-01.jpg",
     author: "Priyesh Rai",
     role: "A full stack Developer",
@@ -24,7 +42,7 @@ export default function Discussion() {
                         <div className="col-lg-2 col-3">
                           <div className="user-image-container">
                             <div className="user-img">
-                              <img src="/images/userDefault.png" alt="" />
+                              <img src="/images/userDefault.png" alt="User" />
                             </div>
                           </div>
                         </div>
@@ -33,7 +51,7 @@ export default function Discussion() {
                             <input
                               type="text"
                               placeholder="Start your post"
-                              disabled
+                              onClick={handleClick}
                             />
                           </div>
                         </div>
@@ -47,7 +65,7 @@ export default function Discussion() {
                     <div className="user-post-container">
                       <div className="post-header">
                         <div className="user-img">
-                          <img src="/images/userDefault.png" alt="" />
+                          <img src="/images/userDefault.png" alt="User" />
                         </div>
                         <div className="user-name">
                           <p>{postData.author}</p>
@@ -65,10 +83,10 @@ export default function Discussion() {
 
                       <div className="post-footer">
                         <div className="icon-container">
-                          <i class="fa-regular fa-heart"></i>
+                          <i className="fa-regular fa-heart"></i>
                         </div>
                         <div className="icon-container">
-                        <i class="fa-solid fa-message"></i>
+                          <i className="fa-solid fa-message"></i>
                         </div>
                       </div>
                     </div>
@@ -76,10 +94,11 @@ export default function Discussion() {
                 </div>
               </div>
             </div>
-            <div className="col-lg-2  col-0"></div>
+            <div className="col-lg-2 col-0"></div>
           </div>
         </div>
       </section>
+      {startPost && <PostBox close={setStartPost} />}
     </div>
   );
 }
